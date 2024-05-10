@@ -15,3 +15,9 @@ describe('Block of Tests', () => {
 
     // other it blocks...
 });
+
+
+// What is CI CT?
+// What is the difference between session Storage, local storage and cookies
+// uis login
+// dynamic web tables
