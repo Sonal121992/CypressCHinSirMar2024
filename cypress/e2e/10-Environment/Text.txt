@@ -1,0 +1,118 @@
+########### Handle different environment in Cypress ###############!/usr/bin/env bash
+
+referred from ===> https://www.youtube.com/watch?v=ZW43ZM1yMuM
+
+Different Approach in Cypress
+
+1. Creating different config files - per each environment
+
+2. cypress.env.json --- this is use when we not much change just a url which is changing then go with this approach
+        ------ we can create env url ===>  for prod url and stage url
+
+
+currently in our project we can see we have only one config file present in our project
+
+1. Now for 1st empty file will write command in terminal
+=======> touch prod.config.js
+
+or else just make new file with + sign
+
+2. Run Time
+===> now as we want to run the file normally we use npx cypress open
+===> but here we want to run the file with config env , so the command will be like as
+
+****** for prod env *********
+npx cypress open --config-file prod.config.js
+
+***** for stage env **********
+npx cypress open --config-file stage.config.js
+ 
+Why we are this config.js??
+* bcoz we want to take data from that particular file 
+* else always cypress.config.js is default file so no need to describe in terminal
+
+In thsi we will see both time they are fetching different url
+
+Now we will try to pass username with env: { }
+
+Then in testEnv.cy.js file
+apart from visit url
+will write to log into username 
+cy.log("Printing the username " + Cypress.env(''))
+
+now inside this we have to pass the name of the env which is username
+
+for both stage and prod environment we will get the result (we can do with any one whichever env is available)
+
+******************************************************************************************
+1st Approach ===> to create different config file
+*******************************************************************************************
+
+**** Now we even do it with CICB pipeline ==> for that create a script in package.json ==> then we can use the same script
+
+* For this go to package.json and create one script
+* script obj is already available just create more script in that and pass a scripture that is npx cypress run
+* Then along with that pass a path of spec file i.e. spec cypress/e2e/10-Environment/testEnv.cy.js
+* Then pass a config file along with this --config-file prod.config.js
+* Like below
+
+"cypress-prod-test":"npx cypress run --spec cypress/e2e/10-Environment/testEnv.cy.js --config-file prod.config.js"
+
+* We can even pass multiple scripts here but for now we are dealing with one testcase
+
+since everytime it is not feasible to write command in command line so better to pass it here in script
+
+* same will do for stage 
+
+"cypress-stage-test":"npx cypress run --spec cypress/e2e/10-Environment/testEnv.cy.js --config-file stage.config.js"
+
+* Now to see the test result we will do the small changes in our config file
+* we will insert video: true in both config file
+
+* why we are doing???? ====> bcoz now we are doing in headless mode means result will be seen in terminal only
+* So if we want to check if the test case is passed base on the config file so we can check by video
+
+
+* Now in terminal write ====> (cypress-prod-test) is copied from package.json file
+    npm run cypress-prod-test 
+
+* Here we can see command writing to run test case is becoming easy as we don't have to write long statements
+* After running this we can see the video folder is created also we can find the link in the terminal to see the execution
+===> so in the headless mode also it working perfectly fine as we the result
+
+===> We can use this approach in CICB pipeline
+
+*****************************************************************************************************************************
+2nd Approach ====> to create cypress.env.json ===> were we can keep all the urls together
+******************************************************************************************************************************
+
+* We can see their is no such file name at root level i.e. ===> cypress.env.json
+* So we will create a file name ===> cypress.env.json ===> here we can create different environment variable
+
+for prod ==> make variable ===> prod_url
+so write as
+"prod_url":"https://www.cypress.io"
+
+and for stage write variable ===> stage_url
+
+"stage_url": "https://www.gmail.com"
+
+* So here we have created a different url ===> so now in our testcase we can directly use this varaible to access the url
+# like ===> cy.visit(Cypress.env('prod_url')) ==> will get cypress.io
+
+* comment the cy.log for now
+* so if we have env variable with the same name in our default config file i.e. cypress.config.js
+* so in that case above # line will override that varaiable in default config file ********************* interview question
+
+
+for stage url just change it to stage_url ===> will gmail.com
+
+
+********************************************************************************************************
+
+* If you have not much data then we can go with this cypress.env.json method
+* But if you have much data like username , password, url, etc and rest of the data is getting changed then we can do 
+===> by creating config file ==> were we can pass the base url and also the env over there like username, password
+
+* in package.json we are sending the prod.config.js file if we have path then send it with path 
+        ===> here currently is at the root level

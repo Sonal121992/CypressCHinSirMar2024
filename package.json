@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress-prod-test":"npx cypress run --spec cypress/e2e/10-Environment/testEnv.cy.js --config-file prod.config.js",
+    "cypress-stage-test":"npx cypress run --spec cypress/e2e/10-Environment/testEnv.cy.js --config-file stage.config.js"
   },
   "author": "",
   "license": "ISC",
