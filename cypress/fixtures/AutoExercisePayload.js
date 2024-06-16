@@ -1,0 +1,19 @@
+export default {
+    username : "sonal",
+    email : `sonal1${Math.floor(Math.random(10000)*6)}@gamil.com`,
+    title : 'Mrs',
+    password : 'sonal',
+    dd : 12,
+    mm : 'September',
+    yy : "1992",
+    firstname : 'sonal',
+    lastname : 'lambat',
+    company : 'Accenture',
+    address1 : 'rourkela1',
+    address2 : 'rourkela2',
+    country : 'India',
+    state : 'Odissa',
+    city : 'sundergargh',
+    zipcode : 769004,
+    mobno : 8668280134
+}
